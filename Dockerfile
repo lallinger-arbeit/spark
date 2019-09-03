@@ -8,6 +8,8 @@ WORKDIR $APP_HOME
 COPY . .
 
 # Install production dependencies.
+RUN apk add gcc
+RUN pip install --upgrade pip
 RUN pip install Flask gunicorn azure-storage-blob
 
 # Run the web service on container startup. Here we use the gunicorn
