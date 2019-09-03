@@ -14,13 +14,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
+from __future__ import print_function
 import os, json, uuid, sys
 
 from flask import Flask
 from flask import request
 from azure.storage.blob import BlockBlobService, PublicAccess
-from __future__ import print_function
+
 from random import random
 from operator import add
 from pyspark.sql import SparkSession

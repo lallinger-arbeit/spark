@@ -25,9 +25,12 @@ spec:
   type: Python
   pythonVersion: "2"
   mode: cluster
-  image: "docker.io/lallinger/batch:latest"
+  image: "gcr.io/spark-operator/spark-py:v2.4.0"
   imagePullPolicy: Always
   mainApplicationFile: https://raw.githubusercontent.com/lallinger-arbeit/spark/master/batch.py
+  deps:
+    files:
+      - https://raw.githubusercontent.com/lallinger-arbeit/spark/master/requirements.txt
   sparkVersion: "2.4.0"
   restartPolicy:
     type: OnFailure
