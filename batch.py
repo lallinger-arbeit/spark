@@ -35,19 +35,20 @@ if __name__ == "__main__":
 
     user=os.environ['STORAGE_USERNAME']
     password=os.environ['STORAGE_PASSWORD']
+    hadoop=os.environ['HADOOP_CLASSPATH']
     container = "staging"
     storageAccount = user
     accessKey = password
     accountKey = "fs.azure.account.key.{}.blob.core.windows.net".format(storageAccount)
 
     print(user)
-    print(password)
+    print(hadoop)
 
     spark.conf.set(accountKey,accessKey)
     spark.conf.set("spark.hadoop.fs.AbstractFileSystem.wasb.Impl","org.apache.hadoop.fs.azure.Wasb")
     spark.conf.set("spark.hadoop.fs.wasb.impl", "org.apache.hadoop.fs.azure.NativeAzureFileSystem")
 
-    inputSource = "wasb://{}@{}.blob.core.windows.net/simple_b1f5f46a-50d8-416b-9149-a7bcd7374cac.csv".format(container, storageAccount)
+    inputSource = "wasbs://{}@{}.blob.core.windows.net/simple_b1f5f46a-50d8-416b-9149-a7bcd7374cac.csv".format(container, storageAccount)
     #sdf = spark.read.parquet(inputSource)
     sdf = spark.read.csv(inputSource)
     print("show data:")
