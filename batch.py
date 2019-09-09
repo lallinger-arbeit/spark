@@ -14,32 +14,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-exec('from __future__ import print_function')
 
+from __future__ import print_function
 
-import os, json, uuid, sys
-
-from flask import Flask
-from flask import request
-from azure.storage.blob import BlockBlobService, PublicAccess
-
+import sys
 from random import random
 from operator import add
+
 from pyspark.sql import SparkSession
 
 
-app = Flask(__name__)
-
-def batch(data):
-
-
+if __name__ == "__main__":
+    """
+        Usage: pi [partitions]
+    """
     spark = SparkSession\
         .builder\
         .appName("PythonPi")\
         .getOrCreate()
 
-    #partitions = int(sys.argv[1]) if len(sys.argv) > 1 else 2
-    partitions = data["count"]
+    partitions = int(sys.argv[1]) if len(sys.argv) > 1 else 2
     n = 100000 * partitions
 
     def f(_):
@@ -49,15 +43,5 @@ def batch(data):
 
     count = spark.sparkContext.parallelize(range(1, n + 1), partitions).map(f).reduce(add)
     print("Pi is roughly %f" % (4.0 * count / n))
-    print("This is from github!")
 
     spark.stop()
-
-
-@app.route('/', methods=['PUT','POST'])
-def receive():
-    batch(request.get_json())
-    return 'OK\n'
-
-if __name__ == "__main__":
-    app.run(debug=True,host='0.0.0.0',port=int(8080))
