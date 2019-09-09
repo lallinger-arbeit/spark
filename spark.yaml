@@ -19,12 +19,12 @@
 apiVersion: "sparkoperator.k8s.io/v1beta1"
 kind: SparkApplication
 metadata:
-  name: pyspark-pi6
+  name: pyspark-pi7
   namespace: spark-operator
 spec:
   deps:
     files:
-      - https://files.pythonhosted.org/packages/76/26/482c033f8f3a48d16cf75aad91c3e1256856719f4117fabb4696d33aa5da/azure_storage-0.36.0-py2.py3-none-any.whl
+      - https://github.com/lallinger-arbeit/spark/raw/master/dependencies.zip
   type: Python
   pythonVersion: "3"
   mode: cluster
