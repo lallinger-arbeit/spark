@@ -51,17 +51,13 @@ if __name__ == "__main__":
     print("Mounting: {}".format(mountPoint))
 
     try:
-    dbutils.fs.mount(
-        source = inputSource,
-        mount_point = str(mountPoint),
-        extra_configs = extraConfig
-    )
-    print("=> Succeeded")
+        dbutils.fs.mount(source = inputSource, mount_point = str(mountPoint), extra_configs = extraConfig)
+        print("=> Succeeded")
     except Exception as e:
-    if "Directory already mounted" in str(e):
-        print("=> Directory {} already mounted".format(mountPoint))
-    else:
-        raise(e)
+        if "Directory already mounted" in str(e):
+            print("=> Directory {} already mounted".format(mountPoint))
+        else:
+            raise(e)
 
 
 
