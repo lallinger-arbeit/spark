@@ -40,13 +40,15 @@ if __name__ == "__main__":
     accessKey = password
     accountKey = "fs.azure.account.key.{}.blob.core.windows.net".format(storageAccount)
 
+    print(user)
+    print(password)
+
     spark.conf.set(accountKey,accessKey)
 
-    inputSource = "wasbs://{}.blob.core.windows.net/{}/simple_b1f5f46a-50d8-416b-9149-a7bcd7374cac.csv".format(storageAccount,container)
-    inputSource= "wasbs://lallingeraccount.blob.core.windows.net/staging/simple_b1f5f46a-50d8-416b-9149-a7bcd7374cac.csv"
+    inputSource = "wasbs://{}@{}.blob.core.windows.net/simple_b1f5f46a-50d8-416b-9149-a7bcd7374cac.csv".format(container, storageAccount)
     #sdf = spark.read.parquet(inputSource)
     sdf = spark.read.csv(inputSource)
-    print("show data: ")
+    print("show data:")
     sdf.show(1)
 
 
