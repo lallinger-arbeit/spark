@@ -17,12 +17,11 @@
 
 from __future__ import print_function
 
-import sys
+import sys,os
 from random import random
 from operator import add
 
 from pyspark.sql import SparkSession
-
 
 if __name__ == "__main__":
     """
@@ -32,6 +31,44 @@ if __name__ == "__main__":
         .builder\
         .appName("PythonPi")\
         .getOrCreate()
+
+
+    
+    user=os.environ['STORAGE_USERNAME']
+    password=os.environ['STORAGE_PASSWORD']
+    container = "staging"
+    storageAccount = user
+    accessKey = password
+    accountKey = "fs.azure.account.key.{}.blob.core.windows.net".format(storageAccount)
+
+    spark.conf.set(accountKey,accessKey)
+    spark._jsc.hadoopConfiguration().set(accountKey,accessKey)
+
+    inputSource = "wasbs://{}@{}.blob.core.windows.net".format(container, storageAccount)
+    mountPoint = "/mnt/" + container
+    extraConfig = {accountKey: accessKey}
+
+    print("Mounting: {}".format(mountPoint))
+
+    try:
+    dbutils.fs.mount(
+        source = inputSource,
+        mount_point = str(mountPoint),
+        extra_configs = extraConfig
+    )
+    print("=> Succeeded")
+    except Exception as e:
+    if "Directory already mounted" in str(e):
+        print("=> Directory {} already mounted".format(mountPoint))
+    else:
+        raise(e)
+
+
+
+
+
+
+
 
     partitions = int(sys.argv[1]) if len(sys.argv) > 1 else 2
     n = 100000 * partitions
