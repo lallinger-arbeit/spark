@@ -22,6 +22,7 @@ from random import random
 from operator import add
 
 from pyspark.sql import SparkSession
+from azure.storage.blob import BlockBlobService, PublicAccess
 
 if __name__ == "__main__":
     """
@@ -32,29 +33,17 @@ if __name__ == "__main__":
         .appName("PythonPi")\
         .getOrCreate()
 
-    time.sleep(1000)
-
     user=os.environ['STORAGE_USERNAME']
     password=os.environ['STORAGE_PASSWORD']
-    hadoop=os.environ['HADOOP_CLASSPATH']
     container = "staging"
-    storageAccount = user
-    accessKey = password
-    accountKey = "fs.azure.account.key.{}.blob.core.windows.net".format(storageAccount)
 
-    print(user)
-    print(hadoop)
+    block_blob_service = BlockBlobService(account_name=user, account_key=password)
 
-    spark.conf.set(accountKey,accessKey)
-    spark.conf.set("spark.hadoop.fs.AbstractFileSystem.wasb.Impl","org.apache.hadoop.fs.azure.Wasb")
-    spark.conf.set("spark.hadoop.fs.wasb.impl", "org.apache.hadoop.fs.azure.NativeAzureFileSystem")
 
-    inputSource = "wasbs://{}@{}.blob.core.windows.net/simple_b1f5f46a-50d8-416b-9149-a7bcd7374cac.csv".format(container, storageAccount)
-    #sdf = spark.read.parquet(inputSource)
-    sdf = spark.read.csv(inputSource)
-    print("show data:")
-    sdf.show(1)
-
+    print("\nList blobs in the container")
+    generator = block_blob_service.list_blobs(container)
+    for blob in generator:
+        print("\t Blob name: " + blob.name)
 
 
     partitions = int(sys.argv[1]) if len(sys.argv) > 1 else 2
