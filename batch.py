@@ -17,7 +17,7 @@
 
 from __future__ import print_function
 
-import sys,os
+import sys,os, DBUtils
 from random import random
 from operator import add
 
@@ -42,27 +42,11 @@ if __name__ == "__main__":
     accountKey = "fs.azure.account.key.{}.blob.core.windows.net".format(storageAccount)
 
     spark.conf.set(accountKey,accessKey)
-    spark._jsc.hadoopConfiguration().set(accountKey,accessKey)
 
-    inputSource = "wasbs://{}@{}.blob.core.windows.net".format(container, storageAccount)
-    mountPoint = "/mnt/" + container
-    extraConfig = {accountKey: accessKey}
-
-    print("Mounting: {}".format(mountPoint))
-
-    try:
-        dbutils.fs.mount(source = inputSource, mount_point = str(mountPoint), extra_configs = extraConfig)
-        print("=> Succeeded")
-    except Exception as e:
-        if "Directory already mounted" in str(e):
-            print("=> Directory {} already mounted".format(mountPoint))
-        else:
-            raise(e)
-
-
-
-
-
+    inputSource = "wasbs://{}@{}.blob.core.windows.net/simple_b1f5f46a-50d8-416b-9149-a7bcd7374cac.csv".format(container, storageAccount)
+    #sdf = spark.read.parquet(inputSource)
+    sdf = spark.read.csv(inputSource)
+    print(sdf.count())
 
 
 
