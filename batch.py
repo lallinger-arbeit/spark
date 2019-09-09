@@ -43,7 +43,7 @@ if __name__ == "__main__":
     spark.conf.set(accountKey,accessKey)
 
     inputSource = "wasbs://{}.blob.core.windows.net/{}/simple_b1f5f46a-50d8-416b-9149-a7bcd7374cac.csv".format(storageAccount,container)
-    inputSource= "https://lallingeraccount.blob.core.windows.net/staging/simple_b1f5f46a-50d8-416b-9149-a7bcd7374cac.csv"
+    inputSource= "wasbs://lallingeraccount.blob.core.windows.net/staging/simple_b1f5f46a-50d8-416b-9149-a7bcd7374cac.csv"
     #sdf = spark.read.parquet(inputSource)
     sdf = spark.read.csv(inputSource)
     print("show data: ")
