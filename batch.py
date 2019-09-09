@@ -17,7 +17,7 @@
 
 from __future__ import print_function
 
-import sys,os, DBUtils
+import sys,os
 from random import random
 from operator import add
 
