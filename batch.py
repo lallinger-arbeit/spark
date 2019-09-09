@@ -33,7 +33,6 @@ if __name__ == "__main__":
         .getOrCreate()
 
 
-    
     user=os.environ['STORAGE_USERNAME']
     password=os.environ['STORAGE_PASSWORD']
     container = "staging"
@@ -43,10 +42,12 @@ if __name__ == "__main__":
 
     spark.conf.set(accountKey,accessKey)
 
-    inputSource = "wasbs://{}@{}.blob.core.windows.net/simple_b1f5f46a-50d8-416b-9149-a7bcd7374cac.csv".format(container, storageAccount)
+    inputSource = "wasbs://{}.blob.core.windows.net/{}/simple_b1f5f46a-50d8-416b-9149-a7bcd7374cac.csv".format(storageAccount,container)
+    inputSource= "https://lallingeraccount.blob.core.windows.net/staging/simple_b1f5f46a-50d8-416b-9149-a7bcd7374cac.csv"
     #sdf = spark.read.parquet(inputSource)
     sdf = spark.read.csv(inputSource)
-    print(sdf.count())
+    print("show data: ")
+    sdf.show(1)
 
 
 
