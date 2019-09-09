@@ -22,7 +22,6 @@ from random import random
 from operator import add
 
 from pyspark.sql import SparkSession
-from azure.storage.blob import BlockBlobService, PublicAccess
 
 if __name__ == "__main__":
     """
@@ -33,10 +32,12 @@ if __name__ == "__main__":
         .appName("PythonPi")\
         .getOrCreate()
 
+    spark.sparkContext.addPyFile("dependencies.zip")
+    from azure.storage.blob import BlockBlobService, PublicAccess
     user=os.environ['STORAGE_USERNAME']
     password=os.environ['STORAGE_PASSWORD']
     container = "staging"
-
+    
     block_blob_service = BlockBlobService(account_name=user, account_key=password)
 
 
