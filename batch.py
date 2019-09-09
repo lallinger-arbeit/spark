@@ -17,7 +17,7 @@
 
 from __future__ import print_function
 
-import sys,os
+import sys,os,time
 from random import random
 from operator import add
 
@@ -32,6 +32,7 @@ if __name__ == "__main__":
         .appName("PythonPi")\
         .getOrCreate()
 
+    time.sleep(1000)
 
     user=os.environ['STORAGE_USERNAME']
     password=os.environ['STORAGE_PASSWORD']
