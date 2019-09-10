@@ -59,7 +59,7 @@ if __name__ == "__main__":
         blob = block_blob_service.get_blob_to_text(containerStaging,blobName)
         print(blob.content)
         
-        ret=int(blob.content.split(",")[2])
+        ret=int(blob.content.split(",")[1])
         print(ret)
 
         return ret
