@@ -54,12 +54,14 @@ if __name__ == "__main__":
     partitions = 4
     n = 100000 * partitions
 
-    def getCount(blob):
-        print(blob)
-        content = block_blob_service.get_blob_to_text(containerStaging,blob)
-        print(content)
-        ret=int(content.split(",")[2])
+    def getCount(blobName):
+        print(blobName)
+        blob = block_blob_service.get_blob_to_text(containerStaging,blobName)
+        print(blob.content)
+        
+        ret=int(blob.content.split(",")[2])
         print(ret)
+
         return ret
 
     sum = spark.sparkContext.parallelize(blobs, partitions).map(getCount).reduce(add)
