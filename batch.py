@@ -48,7 +48,7 @@ if __name__ == "__main__":
     generator = block_blob_service.list_blobs(containerStaging)
     for blob in generator:
         print("\t Blob name: " + blob.name)
-        blob.append(blob.name)
+        blobs.append(blob.name)
 
 
     partitions = 4
