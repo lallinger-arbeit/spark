@@ -65,6 +65,6 @@ if __name__ == "__main__":
         return ret
 
     sum = spark.sparkContext.parallelize(blobs, partitions).map(getCount).reduce(add)
-    print("Sum is: " + sum)
+    print("Sum is: " + str(sum))
 
     spark.stop()
