@@ -22,23 +22,15 @@ metadata:
   name: pyspark-pi7
   namespace: spark-operator
 spec:
-  deps:
-    files:
-      - https://github.com/lallinger-arbeit/spark/raw/master/dependencies.zip
   type: Python
-  pythonVersion: "3"
+  pythonVersion: "2"
   mode: cluster
   image: "gcr.io/spark-operator/spark-py:v2.4.0"
   imagePullPolicy: Always
   mainApplicationFile: https://raw.githubusercontent.com/lallinger-arbeit/spark/master/batch.py
   sparkVersion: "2.4.0"
-  restartPolicy:
-    type: Never
-    onFailureRetries: 3
-    onFailureRetryInterval: 10
-    onSubmissionFailureRetries: 5
-    onSubmissionFailureRetryInterval: 20
   driver:
+    image: "docker.io/lallinger/spark-py:latest"
     cores: 0.3
     coreLimit: "1000m"
     memory: "512m"
@@ -53,6 +45,7 @@ spec:
         name: storage-account-secret
         key: password
   executor:
+    image: "docker.io/lallinger/spark-py:latest"
     cores: 1
     instances: 1
     memory: "512m"
