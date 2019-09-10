@@ -1,3 +1,4 @@
 *.json
 *.git
 __pycache__
+.vscode

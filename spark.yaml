@@ -47,7 +47,7 @@ spec:
   executor:
     image: "docker.io/lallinger/spark-py:latest"
     cores: 1
-    instances: 1
+    instances: 4
     memory: "512m"
     labels:
       version: 2.4.0
