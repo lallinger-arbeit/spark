@@ -55,15 +55,12 @@ if __name__ == "__main__":
     n = 100000 * partitions
 
     def getCount(blob):
-        filepath = os.path.join("~/tmp", blob)
-        block_blob_service.get_blob_to_path(containerStaging, blob, filepath)
-
-        f = open(filepath,"r")
-        content = f.read()
-        f.close()
-        os.remove(filepath)
-
-        return int(content.split(",")[2])
+        print(blob)
+        content = block_blob_service.get_blob_to_text(containerStaging,blob)
+        print(content)
+        ret=int(content.split(",")[2])
+        print(ret)
+        return ret
 
     sum = spark.sparkContext.parallelize(blobs, partitions).map(getCount).reduce(add)
     print("Sum is: " % sum)
