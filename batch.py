@@ -58,16 +58,14 @@ if __name__ == "__main__":
         filepath = os.path.join("~/tmp", blob)
         block_blob_service.get_blob_to_path(containerStaging, blob, filepath)
 
-        dataframe = spark.read.csv(filepath, mode="DROPMALFORMED",schema="name,count,meta")
-        print(dataframe.select("count").collect())
+        f = open(filepath,"r")
+        content = f.read()
+        f.close()
+        os.remove(filepath)
 
-        return dataframe.select("count").collect()
+        return int(content.split(",")[2])
 
-    def sumup(a,b):
-        return a+b
-
-
-    sum = spark.sparkContext.parallelize(blobs, partitions).map(getCount).reduce(sumup)
+    sum = spark.sparkContext.parallelize(blobs, partitions).map(getCount).reduce(add)
     print("Sum is: " % sum)
 
     spark.stop()
