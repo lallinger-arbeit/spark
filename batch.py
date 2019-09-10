@@ -63,7 +63,11 @@ if __name__ == "__main__":
 
         return dataframe.select("count").collect()
 
-    sum = spark.sparkContext.parallelize(blobs, partitions).map(getCount).reduce(add)
+    def sumup(a,b):
+        return a+b
+
+
+    sum = spark.sparkContext.parallelize(blobs, partitions).map(getCount).reduce(sumup)
     print("Sum is: " % sum)
 
     spark.stop()
