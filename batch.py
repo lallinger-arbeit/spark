@@ -48,6 +48,9 @@ if __name__ == "__main__":
     for blob in generator:
         blobs.append(blob.name)
 
+    if len(blobs)==0:
+        print("No blobs in staging")
+        return
 
     partitions = 4
     n = 100000 * partitions
