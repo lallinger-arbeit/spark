@@ -50,7 +50,7 @@ if __name__ == "__main__":
 
     if len(blobs)==0:
         print("No blobs in staging, shutting down")
-        quit()
+        spark.stop()
 
     partitions = 4
     n = 100000 * partitions
