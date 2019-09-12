@@ -17,7 +17,7 @@
 
 from __future__ import print_function
 
-import sys,os,time
+import sys,os,time,uuid
 from random import random
 from operator import add
 
@@ -66,6 +66,9 @@ if __name__ == "__main__":
         return ret
 
     sum = spark.sparkContext.parallelize(blobs, partitions).map(getCount).reduce(add)
+    
+    block_blob_service.create_blob_from_text(containerAnalytics,"sum"+str(uuid.uuid4())+".csv",str(sum))
+    
     print("Sum is: " + str(sum))
 
     spark.stop()
