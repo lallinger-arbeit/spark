@@ -49,8 +49,8 @@ if __name__ == "__main__":
         blobs.append(blob.name)
 
     if len(blobs)==0:
-        print("No blobs in staging")
-        return
+        print("No blobs in staging, shutting down")
+        quit()
 
     partitions = 4
     n = 100000 * partitions
