@@ -60,7 +60,8 @@ if __name__ == "__main__":
         print(blob.content)
         
         ret=int(blob.content.split(",")[1])
-        print(ret)
+
+        block_blob_service.delete_blob(containerStaging,blobName,delete_snapshots='include')
 
         return ret
 
