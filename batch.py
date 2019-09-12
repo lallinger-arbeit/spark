@@ -44,10 +44,8 @@ if __name__ == "__main__":
 
     blobs = []
 
-    print("\nList blobs in the container")
     generator = block_blob_service.list_blobs(containerStaging)
     for blob in generator:
-        print("\t Blob name: " + blob.name)
         blobs.append(blob.name)
 
 
